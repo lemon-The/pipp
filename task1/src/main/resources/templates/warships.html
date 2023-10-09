@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>SeaBattles</title>
+		<link rel="stylesheet" th:href="@{/styles.css}"/>
+  </head>
+  <body id="warship">
+    <header>
+      <div id="tablerefs">
+        <h1>Sea Battles</h1>
+        <form th:action="@{/battles}"><button>Battles</button></form>
+        <form th:action="@{/warships}"><button>Warships</button></form>
+        <form th:action="@{/battle_members}"><button>Battle members</button></form>
+      </div>
+    </header>
+    <form th:object="${newWarship}" method="POST" th:action="@{/warships/save}" enctype="multipart/form-data">
+      <h2>Add new warship</h2>
+      <fieldset>
+        <legend>New warship</legend>
+        <div>
+          <label for="name">Name</label>
+          <input id="name" type="text" th:field="*{name}" th:value="*{name}"/>
+        </div>
+				<div class="validation_error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+        <div>
+          <label for="shipClass">Class</label>
+          <input id="shipClass" type="text" th:field="*{shipClass}" th:value="*{shipClass}"/>
+        </div>
+				<div class="validation_error" th:if="${#fields.hasErrors('shipClass')}" th:errors="*{shipClass}"></div>
+        <div>
+          <label for="commissionDate">Commission date</label>
+					<input id="commissionDate" type="date" th:field="*{commissionDate}"/>
+        </div>
+				<div class="validation_error" th:if="${#fields.hasErrors('commissionDate')}" th:errors="*{commissionDate}"></div>
+        <div>
+          <label for="decommissionDate">Decommission date</label>
+					<input id="decommissionDate" type="date" th:field="*{decommissionDate}"/>
+        </div>
+				<div class="validation_error" th:if="${#fields.hasErrors('decommissionDate')}" th:errors="*{decommissionDate}"></div>
+				<div>
+          <label for="country">Country</label>
+          <select th:field="*{country}">
+            <option th:each="country : ${countries}" th:value="${country.name}" th:text="${country.name}"></option>
+          </select>
+        </div>
+				<div class="validation_error" th:if="${#fields.hasErrors('country')}" th:errors="*{country}"></div>
+
+        <div class="submit">
+          <button type="submit" name="save">Save</button>
+        </div>
+      </fieldset>
+		</form>
+
+    <div class="itemlist">
+      <h2>Warships</h2> 
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Class</th>
+            <th>Commission date</th>
+            <th>Decommission date</th>
+            <th>Country</th>
+            <th>Side</th>
+						<th>Operations</th>
+					</tr>
+        </thead>
+        <tbody>
+          <tr th:each="warship : ${warships}">
+						<td th:text="${warship.name}"> </td>
+            <td th:text="${warship.shipClass}"></td>
+            <td th:text="${warship.commissionDate}"></td>
+            <td th:text="${warship.decommissionDate}"></td>
+            <td th:text="${warship.country.name}"></td>
+            <td th:text="${warship.country.side}"></td>
+						<td>
+							<a th:href="@{'/warships/delete/' + ${warship.id}}">Delete</a>
+							<a th:href="@{'/warships/edit/' + ${warship.id}}">Edit</a>
+						</td>
+					</tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
+

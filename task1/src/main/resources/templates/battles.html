@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>SeaBattles</title>
+		<link rel="stylesheet" th:href="@{/styles.css}"/>
+  </head>
+  <body>
+    <header>
+      <div id="tablerefs">
+        <h1>Sea Battles</h1>
+        <form th:action="@{/battles}"><button>Battles</button></form>
+        <form th:action="@{/warships}"><button>Warships</button></form>
+        <form th:action="@{/battle_members}"><button>Battle members</button></form>
+      </div>
+    </header>
+    <form th:object="${newBattle}" method="POST" th:action="@{/battles/save}" enctype="multipart/form-data">
+      <h2>Add new battle</h2>
+      <fieldset>
+        <legend>New battle</legend>
+        <div>
+          <label for="name">Name</label>
+          <input id="title" type="text" th:field="*{name}"/>
+        </div>
+				<div class="validation_error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+        <div>
+          <label for="Battle date">Battle date</label>
+					<input id="Battle date" type="date" th:field="*{date}"/>
+        </div>
+				<div class="validation_error" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></div>
+
+        <div class="submit">
+          <button type="submit" name="save">Save</button>
+        </div>
+      </fieldset>
+		</form>
+
+    <div class="itemlist">
+      <h2>Battles</h2> 
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Date</th>
+						<!--<th>Participants</th>-->
+						<th>Operations</th>
+					</tr>
+        </thead>
+        <tbody>
+          <tr th:each="battle : ${battles}">
+						<td th:text="${battle.name}"> </td>
+            <td th:text="${battle.date}"></td>
+            <!--<td>
+							<table>
+								<tr th:each="warship : ${battle.participants}">
+									<td th:text="${warship.name}"></td>
+									<td th:text="${warship.country.name}"></td>
+								</tr>
+							</table>
+						</td>-->
+						<td>
+							<a th:href="@{'/battles/delete/' + ${battle.id}}">Delete</a>
+							<a th:href="@{'/battles/edit/' + ${battle.id}}">Edit</a>
+						</td>
+					</tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
+

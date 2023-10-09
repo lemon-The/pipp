@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>SeaBattles</title>
+		<link rel="stylesheet" th:href="@{/styles.css}"/>
+  </head>
+  <body>
+    <header>
+      <div id="tablerefs">
+        <h1>Sea Battles</h1>
+      </div>
+    </header>
+    <form th:object="${editBattle}" method="POST" th:action="@{'/battles/update/'+${editBattle.id}}" enctype="multipart/form-data">
+      <h2>Edit battle</h2>
+      <fieldset>
+        <legend>Edit battle</legend>
+        <div>
+          <label for="name">Name</label>
+          <input id="name" type="text" th:field="*{name}" th:value="*{name}"/>
+        </div>
+				<div class="validation_error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+        <div>
+          <label for="Battle date">Commission date</label>
+					<input id="Battle date" type="date" th:field="*{date}"/>
+        </div>
+				<div class="validation_error" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></div>
+
+        <div class="submit">
+          <button type="submit" name="save">Modify</button>
+        </div>
+      </fieldset>
+    </form>
+  </body>
+</html>
+

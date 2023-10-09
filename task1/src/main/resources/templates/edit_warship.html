@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>SeaBattles</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
+  </head>
+  <body>
+    <header>
+      <div id="tablerefs">
+        <h1>Sea Battles</h1>
+      </div>
+    </header>
+    <form th:object="${editWarship}" method="POST" th:action="@{'/warships/update/'+${editWarship.id}}" enctype="multipart/form-data">
+      <h2>Edit warship</h2>
+      <fieldset>
+        <legend>Edit warship</legend>
+        <div>
+          <label for="name">Name</label>
+          <input id="title" type="text" th:field="*{name}" th:value="*{name}"/>
+        </div>
+				<div class="validation_error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+        <div>
+          <label for="shipClass">Class</label>
+          <input id="shipClass" type="text" th:field="*{shipClass}" th:value="*{shipClass}"/>
+        </div>
+				<div class="validation_error" th:if="${#fields.hasErrors('shipClass')}" th:errors="*{shipClass}"></div>
+        <div>
+          <label for="commissionDate">Commission date</label>
+					<input id="commissionDate" type="date" th:field="*{commissionDate}"/>
+        </div>
+				<div class="validation_error" th:if="${#fields.hasErrors('commissionDate')}" th:errors="*{commissionDate}"></div>
+        <div>
+          <label for="decommissionDate">Decommission date</label>
+					<input id="decommissionDate" type="date" th:field="*{decommissionDate}"/>
+        </div>
+				<div class="validation_error" th:if="${#fields.hasErrors('decommissionDate')}" th:errors="*{decommissionDate}"></div>
+				<div>
+          <label for="country">Country</label>
+          <select th:field="*{country}">
+            <option th:each="country : ${countries}" th:value="${country.name}" th:text="${country.name}"></option>
+          </select>
+        </div>
+				<div class="validation_error" th:if="${#fields.hasErrors('country')}" th:errors="*{country}"></div>
+
+        <div class="submit">
+          <button type="submit" name="save">Modify</button>
+        </div>
+      </fieldset>
+    </form>
+  </body>
+</html>
+

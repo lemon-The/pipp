@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Main</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
+  </head>
+  <body>
+    <header>
+      <div id="tablerefs">
+        <h1>Sea Battles</h1>
+      </div>
+    </header>
+    <form th:object="${editBattleMember}" method="POST" th:action="@{'/battle_members/update/'+${editBattleMember.id}}" enctype="multipart/form-data">
+      <h2>Add new battle</h2>
+      <fieldset>
+        <legend>New battle</legend>
+        <div>
+          <label for="name">Battle</label>
+          <select th:field="*{battle}" th:value="*{battle}">
+            <option th:each="battle : ${allBattles}" th:value="${battle.id}" th:text="${battle.name}"></option>
+          </select>
+        </div>
+				<div class="validation_error" th:if="${#fields.hasErrors('battle')}" th:errors="*{battle}"></div>
+        <div>
+          <label for="member">Member</label>
+          <select th:field="*{member}" th:value="*{member}">
+            <option th:each="warship : ${warships}" th:value="${warship.id}" th:text="${warship.name}"></option>
+          </select>
+        </div>
+				<div class="validation_error" th:if="${#fields.hasErrors('member')}" th:errors="*{member}"></div>
+        <div>
+          <label for="result date">Result</label>
+					<input id="result" type="text" th:field="*{result}" th:value="*{result}"/>
+        </div>
+				<div class="validation_error" th:if="${#fields.hasErrors('result')}" th:errors="*{result}"></div>
+
+        <div class="submit">
+          <button type="submit" name="save">Modify</button>
+        </div>
+      </fieldset>
+    </form>
+  </body>
+</html>
+
+
