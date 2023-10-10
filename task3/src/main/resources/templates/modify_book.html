@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Main</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
+  </head>
+  <body>
+    <header>
+      <div>
+        <img alt="Bookshelf logo" th:src="@{/images/books2.jpg}"/>
+      </div>
+      <div id="bookshelf">
+        <h1>BOOKSHELF</h1>
+        <form th:action="@{/books}"><button>Books</button></form>
+        <form th:action="@{/authors}"><button>Authors</button></form>
+        <form th:action="@{/genres}"><button>Genres</button></form>
+      </div>
+    </header>
+    <form th:object="${mod_book}" method="POST" th:action="@{'/books/update/'+${mod_book.id}}" enctype="multipart/form-data">
+      <h2>Add new book</h2>
+      <fieldset>
+        <legend>New book</legend>
+        <div>
+          <label for="title">Title</label>
+          <input id="title" type="text" th:field="*{title}" th:value="*{title}"/>
+        </div>
+        <div class="validation_error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+        <div>
+          <label for="new_photo">Photo</label>
+          <input type="file" id="new_photo" accept="images/*" th:name="new_photo"></input>
+        </div>
+        <div>
+          <label for="genre">Genres</label>
+          <select th:field="*{genres}" multiple id="genre">
+            <option th:each="genre : ${all_genres}" th:value="${genre.id}" th:text="${genre.name}"></option>
+          </select>
+        </div>
+        <div class="validation_error" th:if="${#fields.hasErrors('genres')}" th:errors="*{genres}"></div>
+        <div>
+          <label for="author">Authors</label>
+          <select role="combobox" th:field="*{authors}" multiple id="author">
+            <option th:each="author : ${all_authors}" th:value="${author.id}" th:text="${author.name}"></option>
+          </select>
+        </div>
+        <div class="validation_error" th:if="${#fields.hasErrors('authors')}" th:errors="*{authors}"></div>
+        <div class="submit">
+          <button type="submit" name="save">Modify</button>
+        </div>
+      </fieldset>
+    </form>
+  </body>
+</html>

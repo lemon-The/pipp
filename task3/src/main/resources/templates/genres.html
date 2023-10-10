@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Main</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
+    </head>
+  <body>
+    <header>
+      <div>
+        <img alt="Bookshelf logo" th:src="@{/images/books2.jpg}"/>
+      </div>
+      <div id="bookshelf">
+        <h1>BOOKSHELF</h1>
+        <form th:action="@{/books}"><button>Books</button></form>
+        <form th:action="@{/authors}"><button>Authors</button></form>
+        <form th:action="@{/genres}"><button>Genres</button></form>
+      </div>
+    </header>
+    <form th:object="${new_genre}" method="POST">
+      <h2>Add new genre</h2>
+      <fieldset>
+        <legend>New genre</legend>
+        <div>
+          <label for="name">Name</label>
+          <input id="name" type="text" th:field="*{name}"/>
+        </div>
+        <div class="validation_error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+        <div>
+          <label for="parent">Parent</label>
+          <select th:field="*{parent}" id="parent">
+            <option th:text="root" th:value="null"></option>
+            <option th:each="genre : ${all_genres}" th:value="${genre.id}" th:text="${genre.name}"></option>
+          </select>
+        </div>
+        <div class="validation_error" th:if="${#fields.hasErrors('parent')}" th:errors="*{parent}"></div>
+        <div class="submit">
+          <button type="submit" name="save">Add</button>
+        </div>
+      </fieldset>
+    </form>
+
+    <div class="booklist">
+      <h2>Genre list</h2>
+      <form th:action="@{/genres}">
+        <select th:name="genre_id">
+          <option th:text="all" th:value="null"></option>
+          <option th:each="gnr : ${all_genres}" th:text="${gnr.name}" th:value="${gnr.id}"></option>
+        </select>
+        <button type="submit" name="filter">Add</button>
+      </form>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Parent</th>
+            <th>Subgenres</th>
+            <th>Operations</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="genre : ${genres_list}">
+            <td th:text="${genre.name}"></td>
+            <td th:text="${genre.parent.name}" th:if="${genre.parent}"></td>
+            <td th:text="Root" th:unless="${genre.parent}"></td>
+            <td>
+              <table>
+                <tr th:each="sub : ${genre.subgenres}">
+                  <td th:text="${sub.name}"></td>
+                </tr>
+              </table>
+            </td>
+            <td>
+              <a th:href="@{'/genres/delete/' + ${genre.id}}">Delete</a>
+              <a th:href="@{'/genres/modify/' + ${genre.id}}">Modify</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
