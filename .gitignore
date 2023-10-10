@@ -1,3 +1,7 @@
 */target/
 */bin/
-
+*/.classpath
+*/.settings
+*/.project
+*/README.norg
+*/work_reserv.fdb
