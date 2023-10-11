@@ -20,3 +20,5 @@ _Стек:_
 resources/db/migration.
 
 http://localhost:8080/v3/api-docs - Информация об эндпоинтах
+
+./gradlew bootRun - запуск
