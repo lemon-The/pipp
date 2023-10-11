@@ -1,4 +1,4 @@
-package com.lemonthe.seabattles.web.controllers;
+package com.pipp.task4.web.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,10 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class RootController {
 
-    @GetMapping
-    public String rootGetMethod() {
-        return "redirect:/battle_members";
-    }
+  @GetMapping
+  public String rootGetMethod() {
+    return "redirect:/battle_members";
+  }
 
 }
-

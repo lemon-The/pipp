@@ -1,4 +1,4 @@
-package com.lemonthe.seabattles.web.services;
+package com.pipp.task4.web.services;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -9,28 +9,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 
-import com.lemonthe.seabattles.database.dao.WarshipDAO;
-import com.lemonthe.seabattles.pojo.Battle;
-import com.lemonthe.seabattles.pojo.Warship;
+import com.pipp.task4.data.WarshipRepository;
+import com.pipp.task4.pojo.Battle;
+import com.pipp.task4.pojo.Warship;
 
 @Service
 public class WarshipService {
 
-	private WarshipDAO warshipDAO;
+	private WarshipRepository warshipRepo;
 	private Logger log;
 
 	@Autowired
-	public WarshipService(WarshipDAO warshipDAO) {
-		this.warshipDAO = warshipDAO;
+	public WarshipService(WarshipRepository warshipDAO) {
+		this.warshipRepo = warshipDAO;
 		this.log = LoggerFactory.getLogger(CountryService.class);
 	}
 
 	public List<Warship> findAll() {
-		return warshipDAO.findAll();
+		return warshipRepo.findAll();
 	}
 
 	public Warship find(Long id) {
-		return warshipDAO.find(id);
+		return warshipRepo.findById(id).get();
 	}
 
 	//private List<Battle> findBattlesForWarship(Long shipId) {
@@ -38,15 +38,15 @@ public class WarshipService {
 	//}
 
 	public void delete(Long id) {
-		warshipDAO.delete(id);
+		warshipRepo.deleteById(id);
 	}
 
 	public void update(Warship warship) {
-		warshipDAO.update(warship);
+		warshipRepo.save(warship);
 	}
 
 	public void save(Warship warship) {
-		warshipDAO.save(warship);
+		warshipRepo.save(warship);
 	}
 
 	public boolean isInputValid(Warship input, Errors errors) {
@@ -71,7 +71,7 @@ public class WarshipService {
 			return false;
 		}
 
-		for (Warship wship : warshipDAO.findAll()) {
+		for (Warship wship : warshipRepo.findAll()) {
 			if (wship.getName().equals(input.getName()) 
 					&& !wship.getId().equals(input.getId())) {
 				errors.rejectValue("name", "120",
@@ -81,7 +81,7 @@ public class WarshipService {
 		}
 
 		if (input.getId() != null) {
-			for (Battle battle : warshipDAO.findBattlesForWarship(input.getId())) {
+			for (Battle battle : warshipRepo.findById(input.getId()).get().getBattles()) {
 				if (input.getCommissionDate().isAfter(battle.getDate())) {
 					errors.rejectValue("commissionDate", "120",
 							"Battle: " + battle.getName()

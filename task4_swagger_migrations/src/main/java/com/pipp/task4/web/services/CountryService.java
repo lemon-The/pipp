@@ -1,4 +1,4 @@
-package com.lemonthe.seabattles.web.services;
+package com.pipp.task4.web.services;
 
 import java.util.List;
 
@@ -7,27 +7,27 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.lemonthe.seabattles.database.dao.CountryDAO;
-import com.lemonthe.seabattles.pojo.Country;
+import com.pipp.task4.data.CountryRepository;
+import com.pipp.task4.pojo.Country;
 
 @Service
 public class CountryService {
 	
-	private CountryDAO countryDAO;
+	private CountryRepository countryRepo;
 	private Logger log;
 
 	@Autowired
-	public CountryService(CountryDAO countryDAO) {
-		this.countryDAO = countryDAO;
+	public CountryService(CountryRepository countryDAO) {
+		this.countryRepo = countryDAO;
 		this.log = LoggerFactory.getLogger(CountryService.class);
 	}
 
 	public List<Country> findAll() {
-		return countryDAO.findAll();
+		return countryRepo.findAll();
 	}
 
 	public Country find(String name) {
-		return countryDAO.find(name);
+		return countryRepo.findByName(name).get();
 	}
 	
 }

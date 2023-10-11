@@ -73,7 +73,7 @@ public class BattleService {
 		}
 
 		if (input.getId() != null) {
-			for (Warship wship : battleRepo.findWarships(input.getId())) {
+			for (Warship wship : battleRepo.findById(input.getId()).get().getParticipants()) {
 				if (wship.getCommissionDate().isAfter(input.getDate())) {
 					errors.rejectValue("date", "120",
 							"Warship: " + wship.getName()

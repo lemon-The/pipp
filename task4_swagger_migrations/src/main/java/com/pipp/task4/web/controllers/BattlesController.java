@@ -1,88 +1,88 @@
-package com.lemonthe.seabattles.web.controllers;
+package com.pipp.task4.web.controllers;
 
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.lemonthe.seabattles.pojo.Battle;
-import com.lemonthe.seabattles.web.services.BattleService;
+import com.pipp.task4.pojo.Battle;
+import com.pipp.task4.web.services.BattleService;
 
 import jakarta.validation.Valid;
 
-@Controller
+@RestController
 @RequestMapping("/battles")
 public class BattlesController {
 
-	private BattleService battleService;
-	private Logger log;
+  private BattleService battleService;
+  private Logger log;
 
-	@Autowired
-	public BattlesController(BattleService service) {
-		this.battleService = service;
-		this.log = LoggerFactory.getLogger(BattlesController.class);
-	}
+  @Autowired
+  public BattlesController(BattleService service) {
+    this.battleService = service;
+    this.log = LoggerFactory.getLogger(BattlesController.class);
+  }
 
-	@ModelAttribute(name = "newBattle")
-	public Battle newBattle() {
-		return new Battle();
-	}
+  //@ModelAttribute(name = "newBattle")
+  //public Battle newBattle() {
+  //  return new Battle();
+  //}
 
-	@ModelAttribute(name = "battles")
-	public List<Battle> allBattes() {
-		return battleService.findAll();
-	}
+  //@ModelAttribute(name = "battles")
+  //public List<Battle> allBattes() {
+  //  return battleService.findAll();
+  //}
 
-	@GetMapping
-	public String getBattles() {
-		return "battles";
-	}
-	
-	@GetMapping("/delete/{id}")
-    public String deleteBattleById(@PathVariable("id") Long id) {
-        battleService.delete(id);
-        return "redirect:/battles";
+  @GetMapping("/")
+  public List<Battle> getBattles() {
+    return battleService.findAll();
+  }
+
+  @GetMapping("/{id}")
+  public Battle getBattle(@PathVariable("id") Long id) {
+    return battleService.find(id);
+  }
+
+  @GetMapping("/delete/{id}")
+  public void deleteBattleById(@PathVariable("id") Long id) {
+    battleService.delete(id);
+  }
+
+  //@GetMapping("/edit/{id}")
+  //public String editBattleById(@PathVariable("id") Long id, Model model) {
+  //  Battle editBattle = battleService.find(id);
+  //  model.addAttribute("editBattle", editBattle);
+  //  return "edit_battle";
+  //}
+
+  @PostMapping("/update/{id}")
+  public void updateBattleById(@PathVariable("id") Long id,
+      @Valid @RequestBody Battle editBattle,
+      Errors errors, Model model) {
+    if (!battleService.isInputValid(editBattle, errors)) {
+      // TODO
     }
+    editBattle.setId(id);
+    battleService.update(editBattle);
+  }
 
-	@GetMapping("/edit/{id}")
-	public String editBattleById(@PathVariable("id") Long id, Model model) {
-		Battle editBattle = battleService.find(id);
-		model.addAttribute("editBattle", editBattle);
-		return "edit_battle";
-	}
-
-	@PostMapping("/update/{id}")
-    public String updateBattleById(@PathVariable("id") Long id,
-            @Valid @ModelAttribute("editBattle") Battle editBattle,  
-            Errors errors, Model model) {
-	if (!battleService.isInputValid(editBattle, errors)) {
-			return "edit_battle";
-		}
-        editBattle.setId(id);
-		battleService.update(editBattle);
-
-        return "redirect:/battles";
+  @PostMapping("/save")
+  public void saveNewBattle(
+      @Valid @RequestBody Battle newBattle,
+      Errors errors) {
+    if (!battleService.isInputValid(newBattle, errors)) {
+      // TODO
     }
+    battleService.save(newBattle);
+  }
 
-	@PostMapping("/save")
-	public String saveNewBattle(
-            @Valid @ModelAttribute("newBattle") Battle newBattle,
-            Errors errors) {
-		if (!battleService.isInputValid(newBattle, errors)) {
-			return "battles";
-		} 
-        battleService.save(newBattle);
-        return "redirect:/battles";
-    }
-
-	
 }

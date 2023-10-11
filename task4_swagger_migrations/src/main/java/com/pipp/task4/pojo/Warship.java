@@ -1,22 +1,31 @@
 package com.pipp.task4.pojo;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Warship {
 
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	private String name;
 
 	private String shipClass;
+
+  @ManyToMany(mappedBy = "participants")
+  private List<Battle> battles;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate commissionDate;
@@ -24,6 +33,8 @@ public class Warship {
 	//@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate decommissionDate;
+
+  @ManyToOne
 	private Country country;
 
 	public Warship() {}
@@ -105,5 +116,13 @@ public class Warship {
 			+ ", deCommissionDate=" + decommissionDate 
 			+ ", country=" + country + "]";
 	}
+
+  public List<Battle> getBattles() {
+    return battles;
+  }
+
+  public void setBattles(List<Battle> battles) {
+    this.battles = battles;
+  }
 
 }

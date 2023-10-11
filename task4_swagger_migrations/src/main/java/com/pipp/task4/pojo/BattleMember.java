@@ -4,14 +4,17 @@ import java.util.Objects;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
-@Entity
+//@Entity
 public class BattleMember {
-  @Id
+  //@Id
 	private Long id;
 
+  //@ManyToOne
 	private Battle battle;
 
+  //@ManyToOne
 	private Warship member;
 
 	private String result;
