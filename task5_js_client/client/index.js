@@ -125,11 +125,12 @@ const renderWarships = async () => {
       fetch("http://localhost:8080/warships/delete/" + w.id, {method: "DELETE"}).then(() => renderWarships())
 	});
 	row.appendChild(btnRemove);
+    //row.insertCell(5).innerHTML = btnRemove.innerHTML;
 
 	const btnUpdate = document.createElement('button');
-    btnRemove.innerText = 'Update';
-	btnRemove.classList.add('btn', 'btn-primary');
-	btnRemove.addEventListener('click', () => {
+    btnUpdate.innerText = 'Update';
+	btnUpdate.classList.add('btn', 'btn-primary');
+	btnUpdate.addEventListener('click', () => {
 	  $("#warhsipModal").modal('show');
       fetch("http://localhost:8080/warships/update" + w.id, {
         method: "PUT",
@@ -142,6 +143,7 @@ const renderWarships = async () => {
 	  $("#warhsipModal").modal('hide');
 	});
 	row.appendChild(btnUpdate);
+    //row.insertCell(6).innerHTML = btnUpdate.innerHTML;
   });
 
 

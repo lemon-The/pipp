@@ -43,7 +43,7 @@ public class Task5Configuration {
             countryRepo.findByName("Germany").get()));
       warshipRepo.save(new Warship(
             "HMS Ajax",
-            "CRUISER",
+            "Britain",
             LocalDate.parse("1934-03-01"),
             LocalDate.parse("1948-02-01"),
             countryRepo.findByName("Britain").get()));
