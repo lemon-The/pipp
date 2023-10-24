@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,11 +26,16 @@ public class CountryController {
     this.countryRepo = countryRepo;
   }
 
-  @GetMapping("/get")
+  @GetMapping("/")
   //@CrossOrigin
   //@CrossOrigin(origins = {"http://localhost:8080/country/get"})
   public List<Country> getCountries() {
     return countryRepo.findAll();
+  }
+
+  @GetMapping("/{name}")
+  public Country getCountryByName(@PathVariable("name") String name) {
+    return countryRepo.findByName(name).get();
   }
 
   @PostMapping("/save")

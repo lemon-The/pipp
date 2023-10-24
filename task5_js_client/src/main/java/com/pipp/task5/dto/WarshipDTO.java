@@ -1,47 +1,23 @@
-package com.pipp.task5.pojo;
+package com.pipp.task5.dto;
 
-import java.time.LocalDate;
-import java.util.List;
 import java.util.Objects;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.pipp.task5.dto.WarshipDTO;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-
-@Entity
-public class Warship {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class WarshipDTO {
 	private Long id;
 
 	private String name;
 
 	private String shipClass;
 
-  @ManyToMany(mappedBy = "participants")
-  private List<Battle> battles;
+	private String commissionDate;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate commissionDate;
+	private String decommissionDate;
 
-	//@NotNull
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate decommissionDate;
+	private String country;
 
-  @ManyToOne
-	private Country country;
+	public WarshipDTO() {}
 
-	public Warship() {}
-
-	public Warship(String name, String shipClass, LocalDate commissionDate, LocalDate decommissionDate, Country country) {
+	public WarshipDTO(String name, String shipClass, String commissionDate, String decommissionDate, String country) {
     this.name = name;
     this.shipClass = shipClass;
     this.commissionDate = commissionDate;
@@ -73,26 +49,26 @@ public class Warship {
 		this.shipClass = shipClass;
 	}
 
-	public LocalDate getCommissionDate() {
+	public String getCommissionDate() {
 		return commissionDate;
 	}
 
-	public void setCommissionDate(LocalDate commissionDate) {
+	public void setCommissionDate(String commissionDate) {
 		this.commissionDate = commissionDate;
 	}
 
-	public LocalDate getDecommissionDate() {
+	public String getDecommissionDate() {
 		return decommissionDate;
 	}
 
-	public void setDecommissionDate(LocalDate deCommissionDate) {
+	public void setDecommissionDate(String deCommissionDate) {
 		this.decommissionDate = deCommissionDate;
 	}
 
-	public Country getCountry() {
+	public String getCountry() {
 		return country;
 	}
-	public void setCountry(Country country) {
+	public void setCountry(String country) {
 		this.country = country;
 	}
 
@@ -104,7 +80,7 @@ public class Warship {
 			return false;
 		if (getClass() != otherObject.getClass())
 			return false;
-		Warship other = (Warship) otherObject;
+		WarshipDTO other = (WarshipDTO) otherObject;
 		return Objects.equals(name, other.name)
 			&& Objects.equals(shipClass, other.shipClass)
 			&& Objects.equals(commissionDate, other.commissionDate)
@@ -127,12 +103,13 @@ public class Warship {
 			+ ", country=" + country + "]";
 	}
 
-  public List<Battle> getBattles() {
-    return battles;
-  }
+  //public List<Battle> getBattles() {
+  //  return battles;
+  //}
 
-  public void setBattles(List<Battle> battles) {
-    this.battles = battles;
-  }
+  //public void setBattles(List<Battle> battles) {
+  //  this.battles = battles;
+  //}
+
 
 }

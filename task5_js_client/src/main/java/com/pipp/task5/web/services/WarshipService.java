@@ -9,19 +9,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 
+import com.pipp.task5.data.CountryRepository;
 import com.pipp.task5.data.WarshipRepository;
+import com.pipp.task5.dto.WarshipDTO;
 import com.pipp.task5.pojo.Battle;
 import com.pipp.task5.pojo.Warship;
 
 @Service
 public class WarshipService {
-
 	private WarshipRepository warshipRepo;
+	private CountryRepository countryRepo;
 	private Logger log;
 
 	@Autowired
-	public WarshipService(WarshipRepository warshipDAO) {
+	public WarshipService(WarshipRepository warshipDAO, CountryRepository countryRepo) {
 		this.warshipRepo = warshipDAO;
+    this.countryRepo = countryRepo;
 		this.log = LoggerFactory.getLogger(CountryService.class);
 	}
 
@@ -45,8 +48,14 @@ public class WarshipService {
 		warshipRepo.save(warship);
 	}
 
-	public void save(Warship warship) {
-		warshipRepo.save(warship);
+	public void save(WarshipDTO dto) {
+    Warship newWarship = new Warship();
+    newWarship.setName(dto.getName());
+    newWarship.setShipClass(dto.getShipClass());
+    newWarship.setCommissionDate(LocalDate.parse(dto.getCommissionDate()));
+    newWarship.setDecommissionDate(LocalDate.parse(dto.getDecommissionDate()));
+    newWarship.setCountry(countryRepo.findByName(dto.getCountry()).get());
+		warshipRepo.save(newWarship);
 	}
 
 	public boolean isInputValid(Warship input, Errors errors) {
