@@ -5,6 +5,7 @@
 	
 	<!-- JS file -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script defer src="index.js"></script>
   <head>
     <meta charset="UTF-8">
@@ -14,6 +15,7 @@
   </head>
 	<body>
 		<div>
+			<h3>Countries</h3>
 			<table class="table" id="countries">
 				<tr>
 					<th>Name</th>
@@ -21,17 +23,26 @@
 				</tr>
 			</table>
 		</div>
+		<div>
+			<h3>Warships</h3>
+			<table class="table" id="warships">
+				<tr>
+					<th>Name</th>
+					<th>Class</th>
+					<th>Commission Date</th>
+					<th>Decommission Date</th>
+					<th>Country</th>
+				</tr>
+			</table>
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#warhsipModal">
+				Add warship
+			</button>
+		</div>
 
 
-
-
-		<!-- Button trigger modal -->
-		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-			Launch demo modal
-		</button>
 
 		<!-- Modal -->
-		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal fade" id="warhsipModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -39,12 +50,26 @@
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-						<input type="text" id="countryName"></input>
-						<input type="text" id="countrySide"></input>
+						<div>Name</div>
+						<input title="Name" type="text" id="warshipName"></input>
+
+						<div>Class</div>
+						<input title="Class" type="text" id="warshipClass"></input>
+
+						<div>CommissionDate</div>
+						<input title="CommissionDate" type="text" id="warshipCommissionDate"></input>
+
+						<div>DecommissionDate</div>
+						<input title="DecommissionDate" type="text" id="warshipDecommissionDate"></input>
+						
+						<div>Country</div>
+						<select id="countrySelect">
+						</select>
+						<input title="Country" type="text" id="warshipCountry"></input>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						<button type="button" id="addClass" class="btn btn-primary">Save changes</button>
+						<button type="button" id="addWarship" class="btn btn-primary">Save changes</button>
 					</div>
 				</div>
 			</div>
